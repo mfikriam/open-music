@@ -1,0 +1,35 @@
+{
+  "name": "open-music",
+  "version": "1.0.0",
+  "description": "Proyek Hapi Plugin, Data Validation, dan PostgreSQL for Dicoding Submission",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "nodemon ./src/server.js",
+    "lint": "eslint ./src",
+    "migrate": "node-pg-migrate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfikriam/open-music.git"
+  },
+  "author": "muhammad fikri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfikriam/open-music/issues"
+  },
+  "homepage": "https://github.com/mfikriam/open-music#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.1.0",
+    "dotenv": "^16.0.3",
+    "joi": "^17.9.2",
+    "nanoid": "^3.1.20",
+    "node-pg-migrate": "^6.2.2",
+    "pg": "^8.10.0"
+  }
+}
