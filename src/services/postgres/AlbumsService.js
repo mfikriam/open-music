@@ -1,7 +1,5 @@
 const { Pool } = require('pg'); // ? Postgres Pool
 const { nanoid } = require('nanoid'); // ? Unique string ID generator
-// ? Mapping DB to Albums Object Model
-// const { mapDBToAlbumsModel } = require('../../utils/AlbumsModel');
 
 // ? Exceptions Types
 const InvariantError = require('../../exceptions/InvariantError');
@@ -40,23 +38,23 @@ class AlbumsService {
       throw new NotFoundError('Album tidak ditemukan');
     }
 
-    console.log(result.rows);
-
     return result.rows[0];
   }
 
-  // async editAlbumById(id, { name, year }) {
-  //   const query = {
-  //     text: 'UPDATE albums SET name = $1, year = $2 WHERE id = $3 RETURNING id',
-  //     values: [name, year, id],
-  //   };
+  async editAlbumById(id, { name, year }) {
+    const query = {
+      text: 'UPDATE albums SET name = $1, year = $2 WHERE id = $3 RETURNING id',
+      values: [name, year, id],
+    };
 
-  //   const result = await this._pool.query(query);
+    const result = await this._pool.query(query);
 
-  //   if (!result.rows.length) {
-  //     throw new NotFoundError('Gagal memperbarui album. Id tidak ditemukan');
-  //   }
-  // }
+    console.log(result.rows);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Gagal memperbarui album. Id tidak ditemukan');
+    }
+  }
 
   // async deleteAlbumById(id) {
   //   const query = {
