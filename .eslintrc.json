@@ -13,6 +13,7 @@
     "no-console": "off",
     "linebreak-style": "off",
     "no-underscore-dangle": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }

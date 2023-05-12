@@ -1,5 +1,5 @@
-const mapDBToAlbumsModel = ({ album_id, name, year }) => ({
-  albumId: album_id,
+const mapDBToAlbumsModel = ({ id, name, year }) => ({
+  id,
   name,
   year,
 });
