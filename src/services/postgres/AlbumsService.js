@@ -62,8 +62,6 @@ class AlbumsService {
 
     const result = await this._pool.query(query);
 
-    console.log(result.rows);
-
     if (!result.rows.length) {
       throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
     }
