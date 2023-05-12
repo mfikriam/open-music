@@ -49,34 +49,16 @@ class AlbumsHandler {
     };
   }
 
-  // async deleteAlbumByIdHandler(request, h) {
-  //   try {
-  //     const { id } = request.params;
-  //     await this._service.deleteAlbumById(id);
-  //     return {
-  //       status: 'success',
-  //       message: 'Album berhasil dihapus',
-  //     };
-  //   } catch (error) {
-  //     if (error instanceof ClientError) {
-  //       const response = h.response({
-  //         status: 'fail',
-  //         message: error.message,
-  //       });
-  //       response.code(error.statusCode);
-  //       return response;
-  //     }
+  async deleteAlbumByIdHandler(request) {
+    const { id } = request.params;
 
-  //     // Server ERROR!
-  //     const response = h.response({
-  //       status: 'error',
-  //       message: 'Maaf, terjadi kegagalan pada server kami.',
-  //     });
-  //     response.code(500);
-  //     console.error(error);
-  //     return response;
-  //   }
-  // }
+    await this._service.deleteAlbumById(id);
+
+    return {
+      status: 'success',
+      message: 'Album berhasil dihapus',
+    };
+  }
 }
 
 module.exports = AlbumsHandler;

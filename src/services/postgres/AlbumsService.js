@@ -49,25 +49,25 @@ class AlbumsService {
 
     const result = await this._pool.query(query);
 
-    console.log(result.rows);
-
     if (!result.rows.length) {
       throw new NotFoundError('Gagal memperbarui album. Id tidak ditemukan');
     }
   }
 
-  // async deleteAlbumById(id) {
-  //   const query = {
-  //     text: 'DELETE FROM albums WHERE id = $1 RETURNING id',
-  //     values: [id],
-  //   };
+  async deleteAlbumById(id) {
+    const query = {
+      text: 'DELETE FROM albums WHERE id = $1 RETURNING id',
+      values: [id],
+    };
 
-  //   const result = await this._pool.query(query);
+    const result = await this._pool.query(query);
 
-  //   if (!result.rows.length) {
-  //     throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
-  //   }
-  // }
+    console.log(result.rows);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
+    }
+  }
 }
 
 module.exports = AlbumsService;
