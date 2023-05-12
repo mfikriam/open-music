@@ -5,7 +5,7 @@ const { nanoid } = require('nanoid'); // ? Unique string ID generator
 
 // ? Exceptions Types
 const InvariantError = require('../../exceptions/InvariantError');
-// const NotFoundError = require('../../exceptions/NotFoundError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class AlbumsService {
   constructor() {
@@ -29,19 +29,21 @@ class AlbumsService {
     return result.rows[0].id;
   }
 
-  // async getAlbumById(id) {
-  //   const query = {
-  //     text: 'SELECT * FROM albums WHERE id = $1',
-  //     values: [id],
-  //   };
-  //   const result = await this._pool.query(query);
+  async getAlbumById(id) {
+    const query = {
+      text: 'SELECT * FROM albums WHERE id = $1',
+      values: [id],
+    };
+    const result = await this._pool.query(query);
 
-  //   if (!result.rows.length) {
-  //     throw new NotFoundError('Album tidak ditemukan');
-  //   }
+    if (!result.rows.length) {
+      throw new NotFoundError('Album tidak ditemukan');
+    }
 
-  //   return result.rows.map(mapDBToAlbumsModel)[0];
-  // }
+    console.log(result.rows);
+
+    return result.rows[0];
+  }
 
   // async editAlbumById(id, { name, year }) {
   //   const query = {
