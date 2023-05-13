@@ -1,5 +1,6 @@
 const { Pool } = require('pg'); // ? Postgres Pool
 const { nanoid } = require('nanoid'); // ? Unique string ID generator
+// const { mapDBToModel } = require('../../utils'); // ? Mapping DB Data to Songs Object
 
 // ? Exceptions Types
 const InvariantError = require('../../exceptions/InvariantError');
@@ -20,13 +21,23 @@ class SongsService {
 
     const result = await this._pool.query(query);
 
-    console.log(query);
-
     if (!result.rows[0].id) {
       throw new InvariantError('Lagu gagal ditambahkan');
     }
 
     return result.rows[0].id;
+  }
+
+  async getSongs() {
+    const result = await this._pool.query('SELECT * FROM songs');
+    console.log(
+      result.rows.map(({ id, title, performer }) => ({ id, title, performer })),
+    );
+    return result.rows.map(({ id, title, performer }) => ({
+      id,
+      title,
+      performer,
+    }));
   }
 }
 
