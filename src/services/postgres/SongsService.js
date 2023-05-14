@@ -11,12 +11,27 @@ class SongsService {
     this._pool = new Pool();
   }
 
-  async addSong({ title, year, genre, performer, duration, albumId }) {
+  async addSong({
+    title,
+    year,
+    genre,
+    performer,
+    duration,
+    albumId,
+  }) {
     const id = `song-${nanoid(16)}`;
 
     const query = {
       text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-      values: [id, title, year, genre, performer, duration, albumId],
+      values: [
+        id,
+        title,
+        year,
+        genre,
+        performer,
+        duration,
+        albumId,
+      ],
     };
 
     const result = await this._pool.query(query);
@@ -28,22 +43,18 @@ class SongsService {
     return result.rows[0].id;
   }
 
-  async getSongs(songTitle, songPerformer) {
+  async getSongs(title, performer) {
     const query = {
-      text: 'SELECT * FROM songs WHERE ($1::text IS NULL OR title ILIKE $1) AND ($2::text IS NULL OR performer ILIKE $2)',
+      text: 'SELECT id, title, performer FROM songs WHERE ($1::text IS NULL OR title ILIKE $1) AND ($2::text IS NULL OR performer ILIKE $2)',
       values: [
-        songTitle ? `%${songTitle}%` : null,
-        songPerformer ? `%${songPerformer}%` : null,
+        title ? `%${title}%` : null,
+        performer ? `%${performer}%` : null,
       ],
     };
 
     const result = await this._pool.query(query);
 
-    return result.rows.map(({ id, title, performer }) => ({
-      id,
-      title,
-      performer,
-    }));
+    return result.rows;
   }
 
   async getSongById(id) {
@@ -53,23 +64,36 @@ class SongsService {
     };
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
 
     return result.rows.map(mapDBToModel)[0];
   }
 
-  async editSongById(id, { title, year, genre, performer, duration, albumId }) {
+  async editSongById(
+    id,
+    { title, year, genre, performer, duration, albumId },
+  ) {
     const query = {
       text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, album_id = $6 WHERE id = $7 RETURNING id',
-      values: [title, year, genre, performer, duration, albumId, id],
+      values: [
+        title,
+        year,
+        genre,
+        performer,
+        duration,
+        albumId,
+        id,
+      ],
     };
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
+    if (!result.rowCount) {
+      throw new NotFoundError(
+        'Gagal memperbarui lagu. Id tidak ditemukan',
+      );
     }
   }
 
@@ -81,8 +105,10 @@ class SongsService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
+    if (!result.rowCount) {
+      throw new NotFoundError(
+        'Lagu gagal dihapus. Id tidak ditemukan',
+      );
     }
   }
 }
